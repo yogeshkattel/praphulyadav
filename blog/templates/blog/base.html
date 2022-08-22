@@ -1,0 +1,238 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+      crossorigin="anonymous"
+    />
+
+    <!-- Medium Editor -->
+    <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css"
+      type="text/css"
+      media="screen"
+      charset="utf-8"
+    />
+
+    <!-- Custom Style -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+
+    {% if title %}
+    <title>Fun Olympics - {{ title }}</title>
+    {% else %}
+    <title>Fun Olympics</title>
+    {% endif %}
+  </head>
+
+  <body  style="  min-height: 100vh;position: relative;margin: 0;padding-bottom: 100px; box-sizing: border-box; " class="">
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style="background-color: #003594;">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="{% url 'index' %}"
+            >Fun Olympics</a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarToggle"
+            aria-controls="navbarToggle"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+       
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav ml-auto " style=" display: flex;
+            column-gap: 20px;
+            justify-content: space-between;
+            font-weight: bolder;
+            ">
+              <a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
+              {% if user.is_authenticated %}
+              <a class="nav-item nav-link" href="{% url 'post_create' %}"
+                >Create Post</a
+              >
+              <a class="nav-item nav-link" href="{% url 'profile' %}"
+                >Profile</a
+              >
+              <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+              {% else %}
+              <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+              <a class="nav-item nav-link" href="{% url 'register' %}"
+                >Register</a
+              >
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <br>
+    <br>
+    <br>
+    <main role="main" class="container" style="">
+      <div class="row">
+        <div class="col-md-8">
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+          {% endfor %}
+          {% endif %}
+          {% block content %}{% endblock %}
+        </div>
+        
+        {% if request.get_full_path == '/' %}
+        <div class="col-md-4" style="margin-top: 4%;">
+          <div class="content-section">
+            <h3>Categories</h3>
+            <p class='text-muted'>You can select catagories to filter posts.
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-light">football</li>
+                <li class="list-group-item list-group-item-light">badminton</li>
+                <li class="list-group-item list-group-item-light">swimming</li>
+                <li class="list-group-item list-group-item-light">basketball</li>
+                <li class="list-group-item list-group-item-light">volleyball</li>
+                <li class="list-group-item list-group-item-light">table-tennis</li>
+                <li class="list-group-item list-group-item-light">etc</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </main>
+    {% if user.is_authenticated %} 
+
+    <footer style="background-color: #003594;   position: absolute; bottom: 0;height: 100px; width: 100%;" class="text-center text-white footer  mt-auto" >
+      <!-- Grid container -->
+      <div class="container pt-4">
+        <!-- Section: Social media -->
+        <section class="mb-4" hidden>
+          <!-- Facebook -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-light m-1"
+            href="#!"
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+    
+          <!-- Twitter -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-light m-1"
+            href="#!"
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-twitter"></i
+          ></a>
+    
+          <!-- Google -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-light m-1"
+            href="#!"
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-google"></i
+          ></a>
+    
+          <!-- Instagram -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-light m-1"
+            href="#!"
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-instagram"></i
+          ></a>
+    
+          <!-- Linkedin -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-light m-1"
+            href="#!"
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-linkedin"></i
+          ></a>
+          <!-- Github -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-light m-1"
+            href="#!"
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-github"></i
+          ></a>
+        </section>
+        <!-- Section: Social media -->
+      </div>
+      <!-- Grid container -->
+    
+      <!-- Copyright -->
+      <div class="text-center text-light p-3" style="background-color: #003594;">
+        © 2022 Copyright: praphul yadav
+       
+      </div>
+      <!-- Copyright -->
+    </footer>
+    {% endif %}
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      
+      const lis  = document.getElementsByTagName('li');
+      console.log(lis);
+      // redirect to another page with innerHTML
+      for(let i = 0; i < lis.length; i++){
+        lis[i].addEventListener('click', function(){
+        
+          // redirect to another page with innerHTML
+          window.location.href = `${window.location.origin}/filter/${this.innerHTML}`;
+
+        });
+      }
+
+      
+    </script>
+    <!-- Optional JavaScript -->
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>
