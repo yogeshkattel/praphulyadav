@@ -17,6 +17,8 @@
       crossorigin="anonymous"
     />
 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
     <!-- Font Awesome -->
     <link
       rel="stylesheet"
@@ -49,9 +51,11 @@
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style="background-color: #003594;">
         <div class="container">
+   
+          
           <a class="navbar-brand mr-4" href="{% url 'index' %}"
-            >Fun Olympics</a
-          >
+            ><img src="https://olympics.com/images/static/b2p-images/logo_color.svg" alt="logo" style="height: 30%;"></a>
+
           <button
             class="navbar-toggler"
             type="button"
@@ -66,16 +70,31 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
        
             <!-- Navbar Right Side -->
-            <div class="navbar-nav ml-auto " style=" display: flex;
+            <div class="navbar-nav ml-auto ins" style=" display: flex;
             column-gap: 20px;
             justify-content: space-between;
             font-weight: bolder;
             ">
               <a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Catagories
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <ul class="list-group">
+                    <li class="list-group-item list-group-item-light" >football</li>
+                    <li class="list-group-item list-group-item-light">badminton</li>
+                    <li class="list-group-item list-group-item-light">swimming</li>
+                    <li class="list-group-item list-group-item-light">basketball</li>
+                    <li class="list-group-item list-group-item-light">volleyball</li>
+                    <li class="list-group-item list-group-item-light">table-tennis</li>
+                    <li class="list-group-item list-group-item-light">etc</li>
+                  </ul>
+                </div>
+            </div>
               {% if user.is_authenticated %}
-              <a class="nav-item nav-link" href="{% url 'post_create' %}"
-                >Create Post</a
-              >
+
+ 
               <a class="nav-item nav-link" href="{% url 'profile' %}"
                 >Profile</a
               >
@@ -86,7 +105,8 @@
                 >Register</a
               >
               {% endif %}
-            </div>
+              
+   
           </div>
         </div>
       </nav>
@@ -94,40 +114,30 @@
     <br>
     <br>
     <br>
-    <main role="main" class="container" style="">
+    <main role="main" class="container " style="">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-9 ttt">
           {% if messages %}
           {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">
+          {% if message.tags == 'error' %}
+          <div class="alert alert-danger" role="alert">
             {{ message }}
           </div>
+          {% else %}
+
+          <div class="alert alert-{{ message.tags }} ">
+            {{ message }}
+          </div>
+          {% endif %}
           {% endfor %}
           {% endif %}
           {% block content %}{% endblock %}
         </div>
         
-        {% if request.get_full_path == '/' %}
-        <div class="col-md-4" style="margin-top: 4%;">
-          <div class="content-section">
-            <h3>Categories</h3>
-            <p class='text-muted'>You can select catagories to filter posts.
-              <ul class="list-group">
-                <li class="list-group-item list-group-item-light">football</li>
-                <li class="list-group-item list-group-item-light">badminton</li>
-                <li class="list-group-item list-group-item-light">swimming</li>
-                <li class="list-group-item list-group-item-light">basketball</li>
-                <li class="list-group-item list-group-item-light">volleyball</li>
-                <li class="list-group-item list-group-item-light">table-tennis</li>
-                <li class="list-group-item list-group-item-light">etc</li>
-              </ul>
-            </p>
-          </div>
-        </div>
-        {% endif %}
+    
       </div>
     </main>
-    {% if user.is_authenticated %} 
+    
 
     <footer style="background-color: #003594;   position: absolute; bottom: 0;height: 100px; width: 100%;" class="text-center text-white footer  mt-auto" >
       <!-- Grid container -->
@@ -198,7 +208,7 @@
       </div>
       <!-- Copyright -->
     </footer>
-    {% endif %}
+    
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
       src="https://code.jquery.com/jquery-3.4.1.js"
@@ -219,7 +229,7 @@
     <script>
       
       const lis  = document.getElementsByTagName('li');
-      console.log(lis);
+      // console.log(lis);
       // redirect to another page with innerHTML
       for(let i = 0; i < lis.length; i++){
         lis[i].addEventListener('click', function(){
@@ -228,7 +238,44 @@
           window.location.href = `${window.location.origin}/filter/${this.innerHTML}`;
 
         });
+        // change color of li when hover change cursor to pointer
+        lis[i].addEventListener('mouseover', function(){
+          // this.style.color = '#fff';
+          this.style.cursor = 'pointer';
+        });
+   
+  
       }
+
+      // fetch data from server and store in local storage
+      fetch(window.location.origin + '/api-blog/contributer/', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Token ' + localStorage.getItem('token')
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          // check if the is_contributer is true
+          // console.log(data.is_contributor)
+          if (data.is_contributor) {
+            // if true then show the navbar
+            // insert the items in the navbar
+            const navbar = document.getElementsByClassName('ins');
+            console.log(navbar);
+            // Insert premade  html in the navbar
+            navbar[0].innerHTML += `
+            <a class="nav-item nav-link" href="{% url 'post_create' %}">Create Post</a>
+            `
+            navbar[0].innerHTML += `
+            <a class="nav-item nav-link" href="{% url 'news_create' %}">Create News</a>`
+          }
+
+        }).catch(err => {
+          console.log(err);
+        }
+        );
 
       
     </script>

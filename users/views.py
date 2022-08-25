@@ -1,8 +1,13 @@
+from asyncio import constants
+import email
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm,LoginForm
+from django.views.generic import View
+from django.contrib.auth import authenticate, login
+# import user
+from django.contrib.auth.models import User
 
 def register(request):
     if request.method == 'POST':
@@ -41,3 +46,42 @@ def profile(request):
         'p_form': p_form
     }
     return render(request, 'users/profile.html', context)
+
+
+# login with username and email classed based login system
+class LoginView(View):
+    # send login form with get request
+    def get(self, request):
+        form = LoginForm()
+        return render(request, 'users/login.html', {'form': form})
+    
+    def post(self, request):
+        # login system with both username and email
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        # check if username is email
+        if '@' in username:
+            print('email')
+            # if username is email
+            # authenticate user with email isntead of username
+            user = User.objects.filter(email=username)
+            if user.exists():
+
+                user = authenticate(request, username=user.first().username, password=password)
+            else:
+                messages.error(request, "This email is not registered.")
+                return redirect('login')
+
+
+            
+        else:
+
+            user = authenticate(request, username=username, password=password)
+        
+        
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            messages.error(request, "Invalid username or password.")
+            return redirect('login')

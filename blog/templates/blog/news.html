@@ -1,0 +1,67 @@
+{% extends "blog/base.html" %} {% block content %} {% load static %}
+
+<link rel="stylesheet" href="{% static 'assets/css/News-Cards.css' %}" />
+<link rel="stylesheet" href="{% static 'assets/css/styles.css' %}" />
+
+
+   
+<div class="col-md-12">
+  <div class="card text-white bg-primary mb-3">
+    <div class="card-body">
+      <h5 class="card-title text-light" style="margin-left: 40%; font-weight: bolder;">News Highlights</h5>
+
+    </div>
+  </div>
+  <div style="padding-left: 40%">
+    <a class="btn btn-primary" href="{% url 'news' %}">View Live</a>
+  </div>
+  <br>
+<div class="container">
+  <div class="row">
+
+
+{% for news in news %}
+
+<figure
+  class="snip1527"
+
+>
+  <div class="image">
+    <img
+      src="{{news.image.url}}"
+      alt="pr-sample23"
+      height="100%"
+      width="100%"
+    />
+  </div>
+
+  <figcaption>
+    <div class="date">
+      <span class="day">{{news.date_posted|date:"d-m"}}</span>
+    </div>
+    <h3>The World Ended Yesterday</h3>
+    <p>
+      You know what we need, Hobbes? We need an attitude. Yeah, you can't be
+      cool if you don't have an attitude.
+    </p>
+    <!-- view button bootstrap -->
+    {% if news.post %}
+    <a href="{% url 'post_detail' news.post.id%}" class="btn btn-info" style="height: 8%; width: 30%; position: relative; margin-left: 30%; margin-top: 4%;">View</a>
+    {% endif %}
+
+  </figcaption>
+
+</figure>
+
+
+
+{% endfor %}
+</div>
+</div>
+<script>
+  const item = document.querySelector(".ttt");
+  // chenage class name
+  item.classList = "";
+  item.classList.add("md-12");
+</script>
+{%endblock content%}

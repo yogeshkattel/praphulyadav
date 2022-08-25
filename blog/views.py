@@ -1,12 +1,14 @@
 from asyncio import constants
-from .models import Post, Comment,Subscriber
+
+from users.models import contributors
+from .models import Post, Comment,Subscriber, News
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import PostForm
+from .forms import PostForm, NewsForm
 from django.views.generic import (
     CreateView,
     ListView,
@@ -17,7 +19,7 @@ from django.views.generic import (
 )
 
 
-class PostListView(LoginRequiredMixin,ListView):
+class PostListView(ListView):
     model = Post
     template_name = 'blog/index.html'
     context_object_name = 'posts'
@@ -85,7 +87,7 @@ class PostDetailView(DetailView):
             context['is_subscribed'] = Subscriber.objects.filter(
                 user=self.object.author, subscribers=self.request.user)
 
-        print(context['is_subscribed'])
+        # print(context['is_subscribed'])
         # if self.request.user.is_authenticated:
         #     context['is_subscribed'] = Subscriber.objects.filter(
         #         user=self.object.author, subscribers=self.request.user).exists()
@@ -99,10 +101,30 @@ class PostDetailView(DetailView):
 
 
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(LoginRequiredMixin, UserPassesTestMixin,CreateView):
     model = Post
     form_class = PostForm
+    def test_func(self):
+        contributor = contributors.objects.filter(user=self.request.user).exists()
+        if self.request.user.is_staff or contributor:
+            return True
+        return False
 
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+class CreateNewsView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = News
+    form_class = NewsForm
+    template_name = 'blog/post_form.html'
+    def test_func(self):
+        contributor = contributors.objects.filter(user=self.request.user).exists()
+        if self.request.user.is_staff or contributor:
+            return True
+        return False
+    
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
@@ -182,3 +204,8 @@ def subscribe(request, pk):
     else:
         return redirect('post_detail', pk=pk)
     return redirect('post_detail', pk=pk)
+
+# view for news feed with data from news mdoel
+def news_feed(request):
+    news = News.objects.all()
+    return render(request, 'blog/news.html', {'news': news})

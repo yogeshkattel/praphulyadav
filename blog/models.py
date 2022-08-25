@@ -1,3 +1,4 @@
+from distutils.debug import DEBUG
 from pyexpat import model
 from django.db import models
 from django.utils import timezone
@@ -80,3 +81,17 @@ class Subscriber(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class News(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, blank=True, null=True
+        )
+    date_posted = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.title
+

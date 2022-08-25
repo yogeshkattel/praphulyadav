@@ -3,6 +3,8 @@ from rest_framework import permissions
 from rest_framework.response import Response
 
 from blog.models import Post
+from users.models import contributors
+from users.models import Profile
 
 
 class LikeToggleAPIView(APIView):
@@ -16,3 +18,15 @@ class LikeToggleAPIView(APIView):
             liked_count = post_qs.liked.all().count()
             return Response({'liked': is_liked, 'likes_count': liked_count})
         return Response({"message": message}, status=400)
+
+# api serializer for contributors ap i
+
+
+# profile view API
+class ContributorView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, format=None):
+        is_contributor = contributors.objects.filter(user=request.user).exists()
+        return Response({'is_contributor': is_contributor})
+

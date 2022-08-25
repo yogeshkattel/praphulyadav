@@ -11,10 +11,7 @@
         <div class="media-body">
             <h4 class="mt-0"><a href="{% url 'user_posts' object.author.username %}">{{ object.author }}</a></h4>
             <h6 class="mt-0">{{ object.author.email }}</h6>
-            
-
-
-            
+        
             
         </div>
        
@@ -54,8 +51,17 @@
     <p class="lead">{{ object.content|linebreaks }}</p>
     {% if object.video_link %}
     
+    // check if user is is_authenticated
+    {% if user.is_authenticated %}
+
         {{object.video_link|safe}}
+    {% else %}
+    // show login to watch video message
+    <div class="alert alert-danger">
+        <strong>You must be logged in to watch this video</strong>
     </div>
+    {% endif%}
+  
     {% else %}
     {% endif %}
     <hr>
@@ -84,10 +90,10 @@
     <div class="card my-4">
         <h5 class="card-header">Leave a Comment:</h5>
         <div class="card-body">
-            <form method="POST" action="{% url 'add_comment' object.id %}">
+            <form id="task-form" >
                 {% csrf_token %}
                 <div class="form-group">
-                    <textarea class="form-control" name="text" rows="3" required></textarea>
+                    <textarea class="form-control" id="text" name="text" rows="3" required></textarea>
                     <input type="hidden" name="user_id" value="{{user.id}}">
                 </div>
                 <button class="btn btn-primary" type="submit">Comment</button>
@@ -102,6 +108,7 @@
 
 
     <!-- Single Comments -->
+    <div id="comment_ajx">
     {% for comment in post.comments.all %}
     {% if comment.approved_comment %}
     <div class="media mb-4">
@@ -118,7 +125,7 @@
     </div>
     {% endif %}
     {% endfor %}
-
+</div>
     <!-- For Replay comments -->
     <!-- <div class="media mb-4">
         <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
@@ -152,9 +159,63 @@
     </div> -->
     <div class="fb-like" data-href=" {{ request.build_absolute_uri }}" data-width="" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
 </div>
-<script>
+<script >
     const iframe= document.getElementsByTagName('iframe')[0];
     iframe.style.width = '100%';
+    
+    // submi form on suubmitt ajax
+
+</script>
+<script type="text/JavaScript">
+        $(document).on('submit','#task-form',function(e) {
+        e.preventDefault();
+
+
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'add_comment' object.id %}",
+            data: $(this).serialize(),
+            success: function(data) {
+                $('#comment_form').html(data);
+            }
+            
+
+        });
+    });
+
+
+</script>
+<script>
+    const form = document.getElementById('task-form');
+    form.addEventListener('submit',function(e){
+        // add comment ti the list whe the form is submitted
+        e.preventDefault();
+        const text = document.getElementById('text').value;
+        
+        // const url = "{% url 'add_comment' object.id %}";
+        const data = {
+            'text': text,
+           
+        };
+
+        const comment = document.getElementById('comment_ajx');
+        comment.innerHTML += `
+        <div class="media mb-4">
+        <img class="d-flex mr-3 rounded-circle article-img" src="http://127.0.0.1:8000/media/default.jpg" alt="">
+        <div class="media-body">
+            <h5 class="mt-0"><a href="">{{ user }}</a></h5>
+            ${text}
+            <hr>
+        </div>
+    </div>`
+    form.reset();
+    
+    
+    
+    })
+
+
+
 
 </script>
 {% endblock content %}

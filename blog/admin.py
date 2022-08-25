@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment, Subscriber
+from .models import Post, Comment, Subscriber,News
 
 admin.site.site_header = 'Dashboard'
 
@@ -15,6 +15,7 @@ class PostAdmin(admin.ModelAdmin):
 admin.site.register(Post, PostAdmin)
 
 admin.site.register(Subscriber)
+admin.site.register(News)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('id', 'author', 'post',
                     'approved_comment', 'created_date')

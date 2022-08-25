@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile
+from .models import Profile, contributors
 from django.contrib.auth.models import Group
 
 # unregister the Group model 
@@ -14,5 +14,6 @@ class ProfileAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Profile, ProfileAdmin)
+admin.site.register(contributors)
 
 

@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Post
+from .models import Post, News
 
 
 class PostForm(forms.ModelForm):
@@ -14,4 +14,13 @@ class PostForm(forms.ModelForm):
             'category': forms.Select(attrs={'class': 'form-control'}),
         }
 
+
+class NewsForm(forms.ModelForm):
+    class Meta:
+        model = News
+        fields = ['title', 'content', 'image', 'post']
+
+        widgets = {
+            'content': forms.Textarea(),
+        }
 # subscribe form for the subscribe model

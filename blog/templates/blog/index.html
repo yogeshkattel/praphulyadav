@@ -25,8 +25,15 @@
             text-overflow: ellipsis;
             word-wrap: break-word;
             overflow: hidden;
-           ">{{ post.content|slice:'0:80'}}</p>
+           ">{{ post.content}}</p>
+           <div style="" >
+            <a href="{% url 'post_detail' post.pk %}" class="btn btn-success btn-lg btn-block mb-4" style="width: 25%; margin-left:30% ;">
+              Watch Video
+          </a>
+           </div>
+              
           </div>
+          
         </article>
     {% endfor %}
  {% else %}
@@ -60,5 +67,17 @@
     {% endif %}
    
 
+    <!-- <script>
+      const iframe= document.querySelectorAll('iframe');
+      
+      // decrease the size of the iframes with loop
+      for (let i = 0; i < iframe.length; i++) {
+        iframe[i].style.width = '100%';
+     
+      }
 
+      
+
+  
+  </script> -->
 {% endblock content %}
