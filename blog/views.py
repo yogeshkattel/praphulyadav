@@ -119,14 +119,19 @@ class CreateNewsView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = News
     form_class = NewsForm
     template_name = 'blog/post_form.html'
+    
     def test_func(self):
         contributor = contributors.objects.filter(user=self.request.user).exists()
         if self.request.user.is_staff or contributor:
             return True
         return False
+
+
+
     
     def form_valid(self, form):
         form.instance.author = self.request.user
+
         return super().form_valid(form)
 
 
@@ -163,6 +168,7 @@ def about(request):
 @login_required
 def add_comment(request, pk):
     post = get_object_or_404(Post, pk=pk)
+    print(request.POST)
     if request.method == 'POST':
         user = User.objects.get(id=request.POST.get('user_id'))
         text = request.POST.get('text')
@@ -175,6 +181,7 @@ def add_comment(request, pk):
 # view for subscribing model
 @login_required
 def subscribe(request, pk):
+    
     post = get_object_or_404(Post, pk=pk)
     if request.method == 'GET':
         user = User.objects.get(id=post.author.id)

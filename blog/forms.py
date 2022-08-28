@@ -16,11 +16,24 @@ class PostForm(forms.ModelForm):
 
 
 class NewsForm(forms.ModelForm):
+   
     class Meta:
         model = News
         fields = ['title', 'content', 'image', 'post']
 
         widgets = {
             'content': forms.Textarea(),
-        }
-# subscribe form for the subscribe model
+           
+        }  
+
+    # check if image is uploaded or not
+  
+    def clean_image(self):
+        image = self.cleaned_data.get('image')
+        if image:
+            return image
+        else:
+            raise forms.ValidationError('Image is required')
+
+
+    

@@ -93,11 +93,23 @@
             <form id="task-form" >
                 {% csrf_token %}
                 <div class="form-group">
-                    <textarea class="form-control" id="text" name="text" rows="3" required></textarea>
+                    <textarea class="form-control" id="text" name="text" rows="3" value=""></textarea>
+
                     <input type="hidden" name="user_id" value="{{user.id}}">
                 </div>
+                <!-- show form errors jinja-->
+                {% if form.errors %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for error in form.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
                 <button class="btn btn-primary" type="submit">Comment</button>
             </form>
+    
         </div>
     </div>
     {% else %}
@@ -125,6 +137,7 @@
     </div>
     {% endif %}
     {% endfor %}
+
 </div>
     <!-- For Replay comments -->
     <!-- <div class="media mb-4">
@@ -157,6 +170,7 @@
 
         </div>
     </div> -->
+
     <div class="fb-like" data-href=" {{ request.build_absolute_uri }}" data-width="" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
 </div>
 <script >
@@ -174,9 +188,18 @@
         $.ajax({
             type: 'POST',
             url: "{% url 'add_comment' object.id %}",
-            data: $(this).serialize(),
+            //get thhe data from the textarea
+            data: {
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+
+                'text': $('#text').val(),
+                'user_id': '{{user.id}}'
+            },
+            
             success: function(data) {
-                $('#comment_form').html(data);
+                $('#text').val('');
+
+                
             }
             
 
@@ -192,7 +215,7 @@
         e.preventDefault();
         const text = document.getElementById('text').value;
         
-        // const url = "{% url 'add_comment' object.id %}";
+        
         const data = {
             'text': text,
            
@@ -208,7 +231,12 @@
             <hr>
         </div>
     </div>`
-    form.reset();
+    
+    // wait 3 seconds and then clear the textarea
+    setTimeout(function(){
+        form.reset();
+    },3000);
+ 
     
     
     
