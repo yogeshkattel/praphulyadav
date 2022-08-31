@@ -1,10 +1,13 @@
+from cgitb import reset
+from re import I
 from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.response import Response
 
-from blog.models import Post
+from blog.models import Post, Notification
 from users.models import contributors
 from users.models import Profile
+from rest_framework.serializers import ModelSerializer
 
 
 class LikeToggleAPIView(APIView):
@@ -30,3 +33,15 @@ class ContributorView(APIView):
         is_contributor = contributors.objects.filter(user=request.user).exists()
         return Response({'is_contributor': is_contributor})
 
+class NotificationSerializer(ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = ['message']
+
+class Notifications(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        notifications = Notification.objects.all()
+        serializer = NotificationSerializer(notifications, many=True)
+        return Response(serializer.data)

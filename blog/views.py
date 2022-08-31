@@ -35,9 +35,9 @@ class PostListView(ListView):
             keyword = ''
         if (keyword != ''):
             object_list = self.model.objects.filter(
-                Q(content__icontains=keyword) | Q(title__icontains=keyword))
+                Q(content__icontains=keyword) | Q(title__icontains=keyword)) and Q(is_published=True)
         else:
-            object_list = self.model.objects.all()
+            object_list = self.model.objects.filter(is_published=True)
         return object_list
 
 
@@ -57,9 +57,9 @@ class FilterPostListView(LoginRequiredMixin,ListView):
         except:
             category = ''
         if (category != ''):
-            object_list = self.model.objects.filter(category=category)
+            object_list = self.model.objects.filter(category=category,is_published=True)
         else:
-            object_list = self.model.objects.all()
+            object_list = self.model.objects.filter(is_published=True)
         return object_list
     
 

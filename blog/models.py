@@ -1,5 +1,6 @@
 from distutils.debug import DEBUG
 from pyexpat import model
+from statistics import mode
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
@@ -25,6 +26,12 @@ class PostManager(models.Manager):
             post_obj.liked.add(user)
         return is_liked
 
+class Notification(models.Model):
+    message = models.CharField(max_length=255, null=False, blank=False)
+    
+    def __str__(self):
+        return self.message.split()[0]
+
 
 class Post(models.Model):
     author = models.ForeignKey(
@@ -37,6 +44,8 @@ class Post(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
     # choose multiple categories
     category = models.CharField(max_length=20, choices=CATEGORIES ,default='football')
+    is_published = models.BooleanField(default=False)
+    schedule_time = models.DateTimeField(default=timezone.now)
     objects = PostManager()
 
     class Meta:

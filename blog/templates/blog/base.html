@@ -80,6 +80,12 @@
                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Catagories
                 </button>
+              
+                
+              
+
+
+
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <ul class="list-group">
                     <li class="list-group-item list-group-item-light" >football</li>
@@ -91,6 +97,7 @@
                     <li class="list-group-item list-group-item-light">etc</li>
                   </ul>
                 </div>
+                
             </div>
               {% if user.is_authenticated %}
 
@@ -114,9 +121,28 @@
     <br>
     <br>
     <br>
-    <main role="main" class="container " style="">
-      <div class="row">
-        <div class="col-md-9 ttt">
+<div style="float: right;" class="container col-md-3 py-5">
+
+  <div class=" text-white  " >
+    <div class="" >
+      <h5 class="" style="margin-left: 40%; font-weight: bolder;">Notifications</h5>
+
+    </div>
+  </div>
+<div id="notif" >
+ 
+
+
+</div>
+
+</div>
+    <main role="main" class="container "  style="">
+
+      <div class="row" >
+        <div class="col-md-9 ttt" >
+          <div >
+            
+          </div>
           {% if messages %}
           {% for message in messages %}
           {% if message.tags == 'error' %}
@@ -278,6 +304,33 @@
         );
 
       
+    </script>
+
+    <script>
+      const url = window.location.origin +'/api-blog/notifications'
+
+      
+
+
+      setInterval(() => {
+        fetch(url).then(data => data.json()).then(data => {
+          // loop through the data and display the notification
+          console.log(data)
+          const notif = document.getElementById('notif');
+          notif.innerHTML = '';
+          data.forEach(element => {
+            notif.innerHTML += `    <div class="" style="width: 100%; height: 100%;">
+      <div>
+        <div class="col-md-12">
+          <div class="alert alert-success" role="alert">
+            <p class="mb-0">${element.message}</p>
+          </div>
+        </div>
+      </div>
+    </div>`
+          });
+      })
+      }, 7000)
     </script>
     <!-- Optional JavaScript -->
     <script src="{% static 'js/main.js' %}"></script>
