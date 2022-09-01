@@ -323,14 +323,15 @@
       <div>
         <div class="col-md-12">
           <div class="alert alert-success" role="alert">
-            <p class="mb-0">${element.message}</p>
+            
+            <a href="${window.location.origin}/post/${element.post}" class="alert-link"><p class="mb-0">${element.message}</p></a>
           </div>
         </div>
       </div>
     </div>`
           });
       })
-      }, 7000)
+      }, 1000)
     </script>
     <!-- Optional JavaScript -->
     <script src="{% static 'js/main.js' %}"></script>

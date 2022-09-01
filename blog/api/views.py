@@ -36,7 +36,7 @@ class ContributorView(APIView):
 class NotificationSerializer(ModelSerializer):
     class Meta:
         model = Notification
-        fields = ['message']
+        fields = ['message', 'post']
 
 class Notifications(APIView):
     permission_classes = [permissions.IsAuthenticated]

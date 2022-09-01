@@ -26,11 +26,6 @@ class PostManager(models.Manager):
             post_obj.liked.add(user)
         return is_liked
 
-class Notification(models.Model):
-    message = models.CharField(max_length=255, null=False, blank=False)
-    
-    def __str__(self):
-        return self.message.split()[0]
 
 
 class Post(models.Model):
@@ -56,6 +51,25 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={'pk': self.pk})
+
+    # create notification on create post
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.is_published:
+            notification = Notification.objects.create(
+                
+                message=f' {self.title} by {self.author.username}',
+                post=self,
+    
+            )
+            notification.save()
+
+class Notification(models.Model):
+    message = models.CharField(max_length=255, null=False, blank=False)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE , null=True, blank=True)
+    
+    def __str__(self):
+        return self.message.split()[0]
 
 
 class Comment(models.Model):

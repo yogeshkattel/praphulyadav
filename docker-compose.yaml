@@ -1,6 +1,9 @@
 version: '3.9'
 services:
   web:
-    image: dj
+    image: app
     ports:
       - "8000:8000"
+    
+    
+

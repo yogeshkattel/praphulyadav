@@ -145,7 +145,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         post = self.get_object()
-        if self.request.user == post.author:
+        if self.request.user.is_staff or self.request.user == post.author or self.request.user.is_contributor:
             return True
         return False
 
@@ -156,7 +156,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         post = self.get_object()
-        if self.request.user == post.author:
+        if self.request.user == post.author or self.request.user == post.author or self.request.user.is_contributor:
             return True
         return False
 

@@ -15,6 +15,8 @@ class PostForm(forms.ModelForm):
         }
 
 
+
+
 class NewsForm(forms.ModelForm):
    
     class Meta:
