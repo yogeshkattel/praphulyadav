@@ -40,7 +40,7 @@ class Post(models.Model):
     # choose multiple categories
     category = models.CharField(max_length=20, choices=CATEGORIES ,default='football')
     is_published = models.BooleanField(default=False)
-    schedule_time = models.DateTimeField(default=timezone.now)
+    is_notified = models.BooleanField(default=False)
     objects = PostManager()
 
     class Meta:
@@ -55,7 +55,7 @@ class Post(models.Model):
     # create notification on create post
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        if self.is_published:
+        if self.is_notified == False:
             notification = Notification.objects.create(
                 
                 message=f' {self.title} by {self.author.username}',
@@ -63,6 +63,8 @@ class Post(models.Model):
     
             )
             notification.save()
+            self.is_notified = True
+            self.save()
 
 class Notification(models.Model):
     message = models.CharField(max_length=255, null=False, blank=False)

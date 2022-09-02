@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'captcha',
-    'django_crontab'
+    
 ]
 
 MIDDLEWARE = [
@@ -122,9 +122,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-CRONJOBS = [
-    ('*/1 * * * *', 'blog.cron.post_schedule','>>'+os.path.join(BASE_DIR,'log/debug7.log')),
-]
 
 
 # Static files (CSS, JavaScript, Images)

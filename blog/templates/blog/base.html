@@ -285,7 +285,7 @@
         .then(data => {
           // check if the is_contributer is true
           // console.log(data.is_contributor)
-          if (data.is_contributor) {
+          if (data.is_contributor || '{{ user.is_admin} }') {
             // if true then show the navbar
             // insert the items in the navbar
             const navbar = document.getElementsByClassName('ins');
