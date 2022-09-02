@@ -51,8 +51,9 @@
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style="background-color: #003594;">
         <div class="container">
-   
           
+          <!-- logo Text -->
+          <a class="navbar-brand " style="font-style: italic; font-weight: bolder;" href="{% url 'index' %}">Fun Olympics</a>
           <a class="navbar-brand mr-4" href="{% url 'index' %}"
             ><img src="https://olympics.com/images/static/b2p-images/logo_color.svg" alt="logo" style="height: 30%;"></a>
 
@@ -272,7 +273,7 @@
    
   
       }
-
+      
       // fetch data from server and store in local storage
       fetch(window.location.origin + '/api-blog/contributer/', {
         method: 'GET',
@@ -285,7 +286,7 @@
         .then(data => {
           // check if the is_contributer is true
           // console.log(data.is_contributor)
-          if (data.is_contributor || '{{ user.is_admin} }') {
+          if (data.is_contributor) {
             // if true then show the navbar
             // insert the items in the navbar
             const navbar = document.getElementsByClassName('ins');
@@ -302,7 +303,7 @@
           console.log(err);
         }
         );
-
+      
       
     </script>
 
