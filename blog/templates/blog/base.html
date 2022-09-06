@@ -152,7 +152,7 @@
       <br>
       <br>
       <br>
-      {% if request.path == '/' %}
+      {% if request.path == '/' and user.is_authenticated%}
       <div style="float: right; text-align: center;" class="container col-md-2 py-5">
       
         <div class=" text-white  " >
