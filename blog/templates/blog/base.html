@@ -83,10 +83,10 @@
     <title>Fun Olympics</title>
     {% endif %}
   </head>
-
-  <body  style="  min-height: 100vh;position: relative;margin: 0;padding-bottom: 100px; box-sizing: border-box; " class="">
+  
+  <body  style=" min-height: 100vh; position: relative; margin: 0; padding-bottom: 100px; box-sizing: border-box;margin-left: -250px; " class="">
     <header class="site-header">
-      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style="background-color: #003594;">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style="background-color: #003594; padding: 20px;">
         <div class="container">
           
           <!-- logo Text -->
@@ -151,12 +151,13 @@
       </nav>
       <br>
       <br>
+      <br>
       {% if request.path == '/' %}
       <div style="float: right; text-align: center;" class="container col-md-2 py-5">
       
         <div class=" text-white  " >
           <div class="" >
-            <h5 class="" style="margin-left: 20%; font-weight: bolder;">Notifications</h5>
+            <h5 class="" style="margin-left: 5%; font-weight: bolder;">Notifications</h5>
       
           </div>
       </div>
@@ -209,12 +210,7 @@
               </a>
           </div>
        
-          <div style="display: flex; gap: 8%; " class="container  py-5">
-            {% for video in videos %}
-              {{video.video_link|safe}}
-            {% endfor %}
-          
-          </div>
+
       </div>
 
   </div>
@@ -224,8 +220,13 @@
 
 
 </div>
-    <main role="main" class="container "  style="">
-
+    <main role="main" class="container"  style="">
+      <div style="display: flex; gap: 8%; height: 10%; float: left; clear: left;" class="container  py-5">
+        {% for video in videos %}
+          {{video.video_link|safe}}
+        {% endfor %}
+      
+      </div>
       <div class="row" >
         <div class="col-md-9 ttt" >
           <div >
@@ -245,7 +246,8 @@
           {% endif %}
           {% endfor %}
           {% endif %}
-          {% block content %}{% endblock %}
+          {% block content %}
+          {% endblock %}
         </div>
         
     
@@ -253,7 +255,8 @@
     </main>
     
 
-    <footer style="background-color: #003594;   position: absolute; bottom: 0;height: 100px; width: 100%;" class="text-center text-white footer  mt-auto" >
+      
+    <footer style="background-color: #003594;  position: absolute; bottom: 0; width: 100%;" class="text-center text-white footer  mt-auto" >
       <!-- Grid container -->
       <div class="container pt-4">
         <!-- Section: Social media -->
@@ -316,8 +319,10 @@
       <!-- Grid container -->
     
       <!-- Copyright -->
-      <div class="text-center text-light p-3" style="background-color: #003594;">
-        © 2022 Copyright: praphul yadav
+      <div class="text-center text-light  " style="background-color: #003594; padding-bottom: 30px; margin-left: 10%;">
+        © 2022 Copyright: praphul@ismt.edu.np
+        <br>
+        Mobile number: 9817354475
        
       </div>
       <!-- Copyright -->

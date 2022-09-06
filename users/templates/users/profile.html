@@ -1,7 +1,7 @@
 {% extends "blog/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="content-section">
+<div class="content-section " style="padding-bottom: 15%;">
     <div class="media">
        
         <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
@@ -32,4 +32,12 @@
         </div>
     </form>
 </div>
+<script>
+    const body = document.querySelector('body');
+    body.style.margin = '0px';
+    body.style.padding = '0px';
+    const py  = document.querySelector('.py-5');
+    // delete py;
+    py.remove()
+</script>
 {% endblock content %}

@@ -6,7 +6,7 @@ from .models import Post, News
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'content','video_link', 'category', 'is_published']
+        fields = ['title', 'content','video_link', 'category', 'is_published','is_notified','scheduleTime','schedule']
 
         widgets = {
             'content': forms.Textarea(),
