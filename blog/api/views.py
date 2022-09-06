@@ -45,3 +45,4 @@ class Notifications(APIView):
         notifications = Notification.objects.all()
         serializer = NotificationSerializer(notifications, many=True)
         return Response(serializer.data)
+

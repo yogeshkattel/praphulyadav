@@ -1,4 +1,5 @@
 from distutils.debug import DEBUG
+from email import message
 from pyexpat import model
 from statistics import mode
 from django.db import models
@@ -41,6 +42,8 @@ class Post(models.Model):
     category = models.CharField(max_length=20, choices=CATEGORIES ,default='football')
     is_published = models.BooleanField(default=False)
     is_notified = models.BooleanField(default=False)
+    scheduleTime = models.DateTimeField(blank=True, null=True)
+    schedule = models.BooleanField(default=False)
     objects = PostManager()
 
     class Meta:
@@ -65,6 +68,23 @@ class Post(models.Model):
             notification.save()
             self.is_notified = True
             self.save()
+
+        if self.schedule == True:
+            Schedulednotice = ScheduledNotice.objects.create(
+                message=f' {self.title} by {self.author.username}',
+                post=self
+                
+            )
+            Schedulednotice.save()
+            
+
+class ScheduledNotice(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    message = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self) -> str:
+        return f'{self.post.title} starting at {str(self.post.scheduleTime)}'
+    
 
 class Notification(models.Model):
     message = models.CharField(max_length=255, null=False, blank=False)

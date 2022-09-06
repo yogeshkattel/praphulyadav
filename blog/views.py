@@ -1,7 +1,7 @@
 from asyncio import constants
 
 from users.models import contributors
-from .models import Post, Comment,Subscriber, News
+from .models import Post, Comment,Subscriber, News, ScheduledNotice
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -17,6 +17,7 @@ from django.views.generic import (
     DeleteView,
     
 )
+from django.core.paginator import Paginator, EmptyPage
 
 
 class PostListView(ListView):
@@ -213,6 +214,28 @@ def subscribe(request, pk):
     return redirect('post_detail', pk=pk)
 
 # view for news feed with data from news mdoel
-def news_feed(request):
+def news_feed(request, page=1):
     news = News.objects.all()
-    return render(request, 'blog/news.html', {'news': news})
+    paginator = Paginator(news, 6)
+    schedulenotice = ScheduledNotice.objects.all()
+    try:
+        news = paginator.page(page)
+    except EmptyPage:
+        news = paginator.page(paginator.num_pages) 
+    return render(request, 'blog/news.html', {'news': news, 'notice': schedulenotice})
+
+
+class News(ListView):
+    model = News
+    template_name = 'blog/news.html'
+    context_object_name = 'news'
+    paginate_by = 6
+
+    def get_context_data(self, **kwargs):
+        context = super(News, self).get_context_data(**kwargs)
+        context['notice'] = ScheduledNotice.objects.all()
+        
+        context['videos'] = Post.objects.all().order_by('-date_posted')[:3]
+
+        return context
+

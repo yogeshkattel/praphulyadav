@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment, Subscriber,News, Notification
+from .models import Post, Comment, Subscriber,News, Notification, ScheduledNotice
 
 admin.site.site_header = 'Dashboard'
 
@@ -14,6 +14,7 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Notification)
+admin.site.register(ScheduledNotice)
 
 admin.site.register(Subscriber)
 admin.site.register(News)

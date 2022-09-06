@@ -9,7 +9,7 @@ from .views import (
     UserPostListView,
     add_comment,
     FilterPostListView,
-    news_feed,
+    News,
     CreateNewsView,
 )
 
@@ -26,6 +26,6 @@ urlpatterns = [
     path('post/<int:pk>/comment/', add_comment, name='add_comment'),
     path('subscribe/<int:pk>', views.subscribe, name='subscribe_user'),
     path('filter/<str:category>', FilterPostListView.as_view(), name='filter_posts'),
-    path('', news_feed, name='index'),
+    path('', News.as_view(), name='index'),
     
 ]

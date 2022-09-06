@@ -6,18 +6,21 @@
 
    
 <div class="col-md-12">
+
+  <div style="padding-left: 40%; ">
+    <a class="btn btn-info" style="height: 30%; width: 20%;" href="{% url 'news' %}">View Live</a>
+  </div>
+  <br>
+
   <div class="card text-white bg-primary mb-3">
     <div class="card-body">
       <h5 class="card-title text-light" style="margin-left: 40%; font-weight: bolder;">News Highlights</h5>
 
     </div>
   </div>
-  <div style="padding-left: 40%">
-    <a class="btn btn-primary" href="{% url 'news' %}">View Live</a>
-  </div>
   <br>
 <div class="container">
-  <div class="row">
+  <div class="row col-md-12" >
 
 
 {% for news in news %}
@@ -39,10 +42,9 @@
     <div class="date">
       <span class="day">{{news.date_posted|date:"d-m"}}</span>
     </div>
-    <h3>The World Ended Yesterday</h3>
+    <h3>{{news.title}}</h3>
     <p>
-      You know what we need, Hobbes? We need an attitude. Yeah, you can't be
-      cool if you don't have an attitude.
+      {{news.content}}
     </p>
     <!-- view button bootstrap -->
     {% if news.post %}
@@ -61,8 +63,27 @@
 
 
 </div>
+{% if is_paginated %}
+{% if page_obj.has_previous %}
+  <a class="btn btn-outline-info mb-4" href="?page=1" >First</a>
+  <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+{% endif %}
 
+{% for num in page_obj.paginator.page_range %}
+  {% if page_obj.number == num %}
+    <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+  {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+    <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+  {% endif %}
+{% endfor %}
+
+{% if page_obj.has_next %}
+  <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+  <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+{% endif %}
+{% endif %}
 </div>
+
 <!-- Left floating notf -->
 <script>
   const item = document.querySelector(".ttt");
