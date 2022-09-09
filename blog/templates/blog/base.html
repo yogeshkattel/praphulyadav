@@ -84,7 +84,7 @@
     {% endif %}
   </head>
   
-  <body  style=" min-height: 100vh; position: relative; margin: 0; padding-bottom: 100px; box-sizing: border-box;margin-left: -250px; " class="">
+  <body  style=" min-height: 100vh; position: relative; margin: 0; padding-bottom: 100px; box-sizing: border-box; " class="">
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style="background-color: #003594; padding: 20px;">
         <div class="container">
@@ -108,7 +108,7 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
        
             <!-- Navbar Right Side -->
-            <div class="navbar-nav ml-auto ins" style=" display: flex;
+            <div class="navbar-nav ml-auto " style=" display: flex;
             column-gap: 20px;
             justify-content: space-between;
             font-weight: bolder;
@@ -120,24 +120,46 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <ul class="list-group">
-                    <li class="list-group-item list-group-item-light" >football</li>
-                    <li class="list-group-item list-group-item-light">badminton</li>
-                    <li class="list-group-item list-group-item-light">swimming</li>
-                    <li class="list-group-item list-group-item-light">basketball</li>
-                    <li class="list-group-item list-group-item-light">volleyball</li>
-                    <li class="list-group-item list-group-item-light">table-tennis</li>
-                    <li class="list-group-item list-group-item-light">etc</li>
+                    <li class="list-group-item list-group-item-light" >Football</li>
+                    <li class="list-group-item list-group-item-light">Badminton</li>
+                    <li class="list-group-item list-group-item-light">Swimming</li>
+                    <li class="list-group-item list-group-item-light">Basketball</li>
+                    <li class="list-group-item list-group-item-light">Volleyball</li>
+                    <li class="list-group-item list-group-item-light">Table-Tennis</li>
+                    <li class="list-group-item list-group-item-light">Etc</li>
                   </ul>
                 </div>
                 
             </div>
               {% if user.is_authenticated %}
+              <div class="ins" style="display: flex;" >
 
+              </div>
  
-              <a class="nav-item nav-link" href="{% url 'profile' %}"
-                >Profile</a
-              >
-              <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+       
+           
+              
+
+              <div class="dropdown " style="display: flex;">
+               
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" id="profile_pic" class="avatar " style="width: 30px; height: 30px; border-radius: 50%;">
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                  <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                </div>
+              
+                <!-- Notifications section on navbar -->
+                <div class="dropdown " style="display: flex; margin-left: 7%;">
+                  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-bell" style="font-size: 20px;"></i>
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="notification_menu">
+            
+                  </div>
+                
+              
               {% else %}
               <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
               <a class="nav-item nav-link" href="{% url 'register' %}"
@@ -152,23 +174,7 @@
       <br>
       <br>
       <br>
-      {% if request.path == '/' and user.is_authenticated%}
-      <div style="float: right; text-align: center;" class="container col-md-2 py-5">
-      
-        <div class=" text-white  " >
-          <div class="" >
-            <h5 class="" style="margin-left: 5%; font-weight: bolder;">Notifications</h5>
-      
-          </div>
-      </div>
-      
-      
-      <div id="notif" style="" >
-       
-      
-      
-      </div>
-      {% endif %}
+   
     </header>
 
     <br>
@@ -221,12 +227,7 @@
 
 </div>
     <main role="main" class="container"  style="">
-      <div style="display: flex; gap: 8%; height: 10%; float: left; clear: left;" class="container  py-5">
-        {% for video in videos %}
-          {{video.video_link|safe}}
-        {% endfor %}
-      
-      </div>
+
       <div class="row" >
         <div class="col-md-9 ttt" >
           <div >
@@ -255,16 +256,20 @@
     </main>
     
 
-      
-    <footer style="background-color: #003594;  position: absolute; bottom: 0; width: 100%;" class="text-center text-white footer  mt-auto" >
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    <footer style="background-color: #003594;  position: absolute; bottom: 0; width: 100%; " class="text-center text-white footer  mt-auto" >
       <!-- Grid container -->
       <div class="container pt-4">
         <!-- Section: Social media -->
-        <section class="mb-4" hidden>
+        <section class="mb-4" >
           <!-- Facebook -->
           <a
             class="btn btn-link btn-floating btn-lg text-light m-1"
-            href="#!"
+            href="https://www.facebook.com/praphul.yadav.96"
             role="button"
             data-mdb-ripple-color="dark"
             ><i class="fab fa-facebook-f"></i
@@ -273,25 +278,19 @@
           <!-- Twitter -->
           <a
             class="btn btn-link btn-floating btn-lg text-light m-1"
-            href="#!"
+            href="https://twitter.com/PraphulYadav131"
             role="button"
             data-mdb-ripple-color="dark"
             ><i class="fab fa-twitter"></i
           ></a>
     
-          <!-- Google -->
-          <a
-            class="btn btn-link btn-floating btn-lg text-light m-1"
-            href="#!"
-            role="button"
-            data-mdb-ripple-color="dark"
-            ><i class="fab fa-google"></i
-          ></a>
+         
+
     
           <!-- Instagram -->
           <a
             class="btn btn-link btn-floating btn-lg text-light m-1"
-            href="#!"
+            href="https://www.instagram.com/praphul_yadav_/"
             role="button"
             data-mdb-ripple-color="dark"
             ><i class="fab fa-instagram"></i
@@ -300,7 +299,7 @@
           <!-- Linkedin -->
           <a
             class="btn btn-link btn-floating btn-lg text-light m-1"
-            href="#!"
+            href="https://www.linkedin.com/in/praphul-ghotiya-b71504242/"
             role="button"
             data-mdb-ripple-color="dark"
             ><i class="fab fa-linkedin"></i
@@ -308,7 +307,7 @@
           <!-- Github -->
           <a
             class="btn btn-link btn-floating btn-lg text-light m-1"
-            href="#!"
+            href="https://github.com/yadavpraphul"
             role="button"
             data-mdb-ripple-color="dark"
             ><i class="fab fa-github"></i
@@ -316,15 +315,31 @@
         </section>
         <!-- Section: Social media -->
       </div>
-      <!-- Grid container -->
-    
-      <!-- Copyright -->
-      <div class="text-center text-light  " style="background-color: #003594; padding-bottom: 30px; margin-left: 10%;">
-        © 2022 Copyright: praphul@ismt.edu.np
-        <br>
-        Mobile number: 9817354475
-       
+
+      <!-- email id section footer-->
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        <a class="text-white" href="mailto:[praphul@ismt.edu.np]
+">Email: praphul@ismt.edu.np</a>
+<br>
+<a class="text-white">Phone: 9817354475</a>
+
       </div>
+      <!-- phone number section footer -->
+
+      <!-- Grid container -->
+    <br>
+      <!-- Copyright -->
+      <div class="text-center text-light  " style="background-color: #003594; ">
+        © 2022 Copyright: praphul
+
+        
+
+      </div>
+      
+
+      
+      
+
       <!-- Copyright -->
     </footer>
     
@@ -365,7 +380,20 @@
    
   
       }
-      
+
+      fetch(window.location.origin + '/api-blog/profile_pic', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}',
+          'Authorization': 'Token '+ localStorage.getItem('token')
+        }
+      }).then(res => res.json()).then(data => {
+        console.log(data);
+        if(data.profile_pic){
+          document.getElementById('profile_pic').src = data.profile_pic;
+        }
+      })
       // fetch data from server and store in local storage
       fetch(window.location.origin + '/api-blog/contributer/', {
         method: 'GET',
@@ -410,19 +438,14 @@
         fetch(url).then(data => data.json()).then(data => {
           // loop through the data and display the notification
           console.log(data)
-          const notif = document.getElementById('notif');
+          const notif = document.getElementById('notification_menu');
           notif.innerHTML = '';
           data.forEach(element => {
-            notif.innerHTML += `    <div class="" style="width: 100%; height: 100%;">
-      <div>
-        <div class="col-md-12">
-          <div class="alert alert-success" role="alert">
+            notif.innerHTML += `
+
             
-            <a href="${window.location.origin}/post/${element.post}" class="alert-link"><p class="mb-0">${element.message}</p></a>
-          </div>
-        </div>
-      </div>
-    </div>`
+            <a href="${window.location.origin}/post/${element.post}" class="alert-link dropdown-item" ><p class="mb-0">${element.message}</p></a>
+ `
           });
       })
       }, 1000)
@@ -450,6 +473,8 @@ $('.carousel .carousel-item').each(function(){
         next.children(':first-child').clone().appendTo($(this));
       }
 });
+
+    
 
 
     </script>

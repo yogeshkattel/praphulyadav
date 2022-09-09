@@ -46,3 +46,10 @@ class Notifications(APIView):
         serializer = NotificationSerializer(notifications, many=True)
         return Response(serializer.data)
 
+class ProfilePic(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    # get the proficle pic url for the user
+    def get(self, request):
+        profile = Profile.objects.filter(user=request.user).get()
+        return Response({'profile_pic': profile.image.url})
