@@ -1,20 +1,29 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile
+from .models import Profile, UserExtraDetails
 from captcha.fields import CaptchaField
 
 
+class userExtraDetails(forms.ModelForm):
+    class Meta:
+        model = UserExtraDetails
+        fields = ['phoneNumber', 'country']
 class UserRegisterForm(UserCreationForm):
     captcha = CaptchaField()
     email = forms.EmailField()
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
+    # user extra details forms
+    phoneNumber = forms.CharField(max_length=20, required=True)
+    country = forms.CharField(max_length=100, required=True)
+
     
 
     class Meta:
         model = User
-        fields = ['username','email', 'first_name', 'last_name', 'password1', 'password2']
+        fields = ['username','email', 'first_name', 'last_name', 'password1', 'password2' ,'phoneNumber', 'country']
+
     
     def clean(self):
         cleaned_data = super(UserRegisterForm, self).clean()
@@ -30,6 +39,11 @@ class UserRegisterForm(UserCreationForm):
             raise forms.ValidationError('Username cannot contain @ or .')
         return username
 
+class ExtraDetailsForm(forms.ModelForm):
+    class Meta:
+        model = UserExtraDetails
+        fields = ['phoneNumber', 'country']
+    
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
 

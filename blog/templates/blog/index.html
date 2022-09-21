@@ -67,6 +67,20 @@
     {% endif %}
    
 
+    <!-- 
+      search box feature check all the post if it contains input list them and remove all
+     -->
+    <script>
+      $(document).ready(function(){
+        $("input").on("keyup", function() {
+          var value = $(this).val().toLowerCase();
+          $("article").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+        });
+      });
+    </script>
+
     <!-- <script>
       const iframe= document.querySelectorAll('iframe');
       

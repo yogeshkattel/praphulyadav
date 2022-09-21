@@ -4,6 +4,17 @@ from PIL import Image
 
 from blog.models import Subscriber
 
+class UserExtraDetails(models.Model):
+    phoneNumber = models.CharField(max_length=20, blank=True)
+    country = models.CharField(max_length=100, blank=True)
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
+    
+    
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')

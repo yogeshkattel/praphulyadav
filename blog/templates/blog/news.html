@@ -8,7 +8,9 @@
 <div class="col-md-12">
 
   <div style="padding-left: 40%; ">
-    <a class="btn btn-info" style="height: 30%; width: 20%;" href="{% url 'news' %}">View Live</a>
+    <a class="btn btn-success btn-rounded " style="height: 30%; width: 20%;" id="blink"  href="{% url 'news' %}"><b>View Live</b> </a>
+    <!-- CIRCLE  -->
+    
   </div>
   <br>
 
@@ -89,5 +91,12 @@
   // chenage class name
   item.classList = "";
   item.classList.add("md-12");
+
+  
+  setInterval(function () {
+    var blink = document.getElementById("blink");
+    blink.style.backgroundColor = (blink.style.backgroundColor == 'green' ? '#FA5F55' : 'green');
+    
+  }, 1000);
 </script>
 {%endblock content%}

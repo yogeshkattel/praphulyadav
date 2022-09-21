@@ -369,7 +369,7 @@
         lis[i].addEventListener('click', function(){
         
           // redirect to another page with innerHTML
-          window.location.href = `${window.location.origin}/filter/${this.innerHTML}`;
+          window.location.href = `${window.location.origin}/filter/${this.innerHTML.toLocaleLowerCase()}`;
 
         });
         // change color of li when hover change cursor to pointer
@@ -413,7 +413,7 @@
             console.log(navbar);
             // Insert premade  html in the navbar
             navbar[0].innerHTML += `
-            <a class="nav-item nav-link" href="{% url 'post_create' %}">Create Post</a>
+            <a class="nav-item nav-link" href="{% url 'post_create' %}">Upload Videos</a>
             `
             navbar[0].innerHTML += `
             <a class="nav-item nav-link" href="{% url 'news_create' %}">Create News</a>`
