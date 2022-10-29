@@ -23,5 +23,5 @@ class Profile(models.Model):
 
     # get all the subscribers count for the user
     def get_subscriber_count(self):
-        subsc = Subscriber.objects.filter(user=self.user).get()
-        return subsc.subscribers.count()
+        subscriberObject = Subscriber.objects.filter(user=self.user).get()
+        return subscriberObject.subscribers.count()
